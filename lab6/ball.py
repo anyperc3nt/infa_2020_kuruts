@@ -20,11 +20,12 @@ BLACK = (0, 0, 0)
 COLORS = [RED, BLUE, YELLOW, GREEN, MAGENTA, CYAN]
 
 class myobject(object):
-    """класс объекта, который имеет свой surface для отрисовки и может передвигаться по экране
-        имеет значение type, позволяющую отличать объекты друг от друга    
+    """
+    класс объекта, который имеет свой surface для отрисовки и может передвигаться по экране
+    имеет значение type, позволяющую отличать объекты друг от друга    
     """
     def __init__(self, surface, x, y , vx, vy, r, type):
-        """Constructor"""
+        """конструктор"""
         self.surface = surface
         self.x = x
         self.y = y
@@ -34,28 +35,25 @@ class myobject(object):
         self.type = type
     
     def draw(self):
-        """
-        отображает себя на экране
-        """
+        """отображает себя на экране"""
         pygame.Surface.blit(screen, self.surface, (self.x-self.r,self.y-self.r))
 
     def move(self):
-        """
-        перемещает себя значение скорости
-        """
+        """перемещает себя значение скорости"""
         self.x+=self.vx
         self.y+=self.vy
 
 class table(object):
     """класс таблицы, хранит количество очков и координаты отрисовки, позволяет отобразить кол-во очков на экране"""
     def __init__(self, color, points,x,y):
-        """Constructor"""
+        """конструктор"""
         self.points = points
         self.color = color
         self.x = x
         self.y = y
     
     def draw(self):
+        """вывод очков на экран"""
         f1 = pygame.font.Font(None, 36)
         tbl = 'points: '
         tbl+=str(self.points)
@@ -70,6 +68,7 @@ def click_object(event, obj):
             table2.points+=1
 
 def collision(objects):
+    """функция коллизии, получает список объектов и при столкновении отражает их от стен"""
     for obj in objects:
         if(obj.x + obj.r > Xbound):
             obj.vx*=-1
@@ -83,6 +82,7 @@ def collision(objects):
         elif(obj.y + obj.r > Ybound):
             obj.vy*=-1
             obj.y=Ybound-obj.r
+
 
 
 #создаем surface шара и массив объектов шаров
@@ -118,6 +118,10 @@ while not finished:
             for square in squares:
                 click_object(event,square)
     
+
+    """ тут не красиво конечно, так как из-за двух типов объектов код копипастится два раза
+        надо будет создать список из всех объектов сразу
+    """
     for ball in balls:
         ball.move()
         ball.draw()
