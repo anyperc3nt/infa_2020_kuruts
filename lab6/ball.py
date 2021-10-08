@@ -10,6 +10,7 @@ Ybound=800
 screen = pygame.display.set_mode((Xbound, Ybound))
 
 transparent = (0,0,0,0)
+backg = (50, 50, 70)
 RED = (255, 0, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
@@ -65,7 +66,7 @@ def click_object(event, obj):
         if obj.type==1:
             table1.points+=1
         elif obj.type==2:
-            table2.points+=1
+            table1.points+=10
 
 def collision(objects):
     """функция коллизии, получает список объектов и при столкновении отражает их от стен"""
@@ -92,16 +93,17 @@ ball1.fill(transparent)
 circle(ball1, BLUE, (25, 25), 25)
 balls = [myobject(ball1,randint(1,Xbound),randint(1,Ybound),randint(1,5),randint(1,5),25,1) for i in range(1,10)]
 #создаем таблицу учета очков
-table1=table(BLUE,0,10,10)
+table1=table(YELLOW,0,10,10)
 
 #создаем surface шара и массив объектов шаров
 square1 = pygame.Surface((70,70))
 square1 = square1.convert_alpha()
 square1.fill(transparent)
 rect(square1, GREEN, (0, 0,70,70))
+circle(square1, BLACK, (20, 25), 5)
+circle(square1, BLACK, (50, 25), 5)
+rect(square1, BLACK, (15, 50,40,7))
 squares = [myobject(square1,randint(1,Xbound),randint(1,Ybound),randint(1,5),randint(1,5),35,2) for i in range(1,10)]
-
-table2=table(GREEN,0,10,40)
 
 pygame.display.update()
 clock = pygame.time.Clock()
@@ -126,15 +128,15 @@ while not finished:
         ball.move()
         ball.draw()
     collision(balls)
-    table1.draw()
 
     for square in squares:
         square.move()
         square.draw()
     collision(squares)
-    table2.draw()
+
+    table1.draw()
 
     pygame.display.update()
-    screen.fill(BLACK)
+    screen.fill(backg)
 
 pygame.quit()
