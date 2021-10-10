@@ -135,15 +135,10 @@ rect(square2, WHITE, (25, 60,50,10))
 all_objects = [
     [myobject(ball1,randint(1,Xbound-35),randint(1,Ybound-35),randint(1,5),randint(1,5),35,0) for i in range(1,20)],
     [myobject(square1,randint(1,Xbound-35),randint(1,Ybound-35),randint(1,5),randint(1,5),35,1) for i in range(1,4)],
-    [myobject(square2,randint(1,Xbound-35),randint(1,Ybound-35),randint(1,5),randint(1,5),35,2) for i in range(1,15)]
+    [myobject(square2,randint(1,Xbound-50),randint(1,Ybound-50),randint(1,5),randint(1,5),50,2) for i in range(1,15)]
 ]
 
-"""типы объектов
 
-0 - кружочек
-1 - квадратик
-
-"""
 
 pygame.display.update()
 clock = pygame.time.Clock()
