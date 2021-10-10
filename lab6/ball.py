@@ -138,8 +138,6 @@ all_objects = [
     [myobject(square2,randint(1,Xbound-50),randint(1,Ybound-50),randint(1,5),randint(1,5),50,2) for i in range(1,15)]
 ]
 
-
-
 pygame.display.update()
 clock = pygame.time.Clock()
 finished = False
