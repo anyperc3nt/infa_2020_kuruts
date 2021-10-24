@@ -6,10 +6,10 @@ from pygame.draw import *
 
 FPS = 60
 
-TRANSPARENT = (0,0,0,0)
+TRANSPARENT = (0, 0, 0, 0)
 
-GREY = (150,150,150)
-WHITE = (255,255,255)
+GREY = (150, 150, 150)
+WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
@@ -53,9 +53,9 @@ class Ball:
         self.x += self.vx
         self.y -= self.vy
         self.vy -= g
-        if(self.y>HEIGHT-self.r):
-            self.y=HEIGHT-self.r
-            self.vy*=-0.7
+        if(self.y > HEIGHT-self.r):
+            self.y = HEIGHT-self.r
+            self.vy *= -0.7
 
     def draw(self):
         pygame.draw.circle(
@@ -133,16 +133,18 @@ class Gun:
         surf.fill(TRANSPARENT)
         rect(surf, self.color, (0, 0,self.f2_power+20,10))
         pygame.Surface.blit(self.screen, pygame.transform.rotate(surf, -self.an), (self.x, self.y))"""
-        
+
         #line(self.screen, self.color, (self.x,self.y), (self.x+(self.f2_power+20)*math.cos(self.an),self.y+(self.f2_power+20)*math.sin(self.an)), width=10)
-        width=10
+        width = 10
         coords = [
-            (self.x,self.y),
-            (self.x+(self.f2_power+20)*math.cos(self.an),self.y+(self.f2_power+20)*math.sin(self.an)),
-            (self.x+(self.f2_power+20)*math.cos(self.an)+width*math.sin(self.an),self.y+(self.f2_power+20)*math.sin(self.an)-width*math.cos(self.an)),
-            (self.x+width*math.sin(self.an),self.y-width*math.cos(self.an))
-            ]
-        
+            (self.x, self.y),
+            (self.x+(self.f2_power+20)*math.cos(self.an),
+             self.y+(self.f2_power+20)*math.sin(self.an)),
+            (self.x+(self.f2_power+20)*math.cos(self.an)+width*math.sin(self.an),
+             self.y+(self.f2_power+20)*math.sin(self.an)-width*math.cos(self.an)),
+            (self.x+width*math.sin(self.an), self.y-width*math.cos(self.an))
+        ]
+
         polygon(self.screen, self.color, (coords), width=0)
 
     def power_up(self):
@@ -155,13 +157,13 @@ class Gun:
 
 
 class Target:
-    def __init__(self,live=1):
+    def __init__(self, live=1):
         """ Инициализация новой цели. """
         self.x = rnd(600, 780)
         self.y = rnd(300, 550)
         self.r = rnd(2, 50)
         self.color = RED
-        self.live=live
+        self.live = live
 
     def hit(self, point=1):
         """Попадание шарика в цель."""
@@ -194,18 +196,17 @@ def drawscore():
     screen.blit(text1, (10, 10))
 
 
-    
-
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 bullet = 0
 balls = []
-points=0
+points = 0
 
 clock = pygame.time.Clock()
 gun = Gun(screen)
 target = Target()
 finished = False
+
 
 def showtext():
     screen.fill(WHITE)
@@ -216,7 +217,7 @@ def showtext():
     text1 = f1.render(tbl, True, BLACK)
     screen.blit(text1, (180, 250))
     pygame.display.update()
-    for i in range (1,100):
+    for i in range(1, 100):
         clock.tick(FPS)
 
 
@@ -244,10 +245,10 @@ while not finished:
         b.move()
         if b.hittest(target):
             target.hit()
-            if(target.live==0):
-                target=Target()
-                bullet=0
-                balls=[]
+            if(target.live == 0):
+                target = Target()
+                bullet = 0
+                balls = []
                 showtext()
     gun.power_up()
 
