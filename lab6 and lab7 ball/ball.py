@@ -3,10 +3,6 @@ import sys
 from pygame.constants import WINDOWHITTEST
 from pygame.draw import *
 from random import randint
-<<<<<<< HEAD
-=======
-
->>>>>>> af27e7236f334673144ec2561e156167f7d47a47
 
 FPS = 60
 Xbound = 800
@@ -41,12 +37,8 @@ class myobject(object):
     type: значение типа, позволяет отличать объекты друг от друга
     """
 
-<<<<<<< HEAD
     def __init__(self, surface, x, y, vx, vy, r, type):
         """конструктор"""
-=======
-    def __init__(self, surface, x, y , vx, vy, r, type):
->>>>>>> af27e7236f334673144ec2561e156167f7d47a47
         self.surface = surface
         self.x = x
         self.y = y
@@ -72,16 +64,10 @@ class table(object):
 
     points: число для вывода на экран
     x,y - координаты надписи на экране
-<<<<<<< HEAD
 
     """
 
     def __init__(self, color, points, x, y):
-=======
-    """
-
-    def __init__(self, color, points,x,y):
->>>>>>> af27e7236f334673144ec2561e156167f7d47a47
         """конструктор"""
         self.points = points
         self.color = color
@@ -122,11 +108,7 @@ def collision(obj):
     """
     if(obj.x + obj.r > Xbound):
         obj.vx *= -1
-<<<<<<< HEAD
         obj.x = Xbound-obj.r
-=======
-        obj.x = Xbound - obj.r
->>>>>>> af27e7236f334673144ec2561e156167f7d47a47
     elif(obj.x - obj.r < 0):
         obj.vx *= -1
         obj.x = obj.r
@@ -136,7 +118,6 @@ def collision(obj):
     elif(obj.y + obj.r > Ybound):
         obj.vy *= -1
         obj.y = Ybound-obj.r
-<<<<<<< HEAD
 
 
 pygame.init()
@@ -146,17 +127,6 @@ screen = pygame.display.set_mode((Xbound, Ybound))
 table1 = table(YELLOW, 0, 10, 10)
 
 # создаем surface шара и surface квадратикa
-=======
-
-
-pygame.init()
-screen = pygame.display.set_mode((Xbound, Ybound))
-
-#создаем таблицу учета очков
-table1=table(YELLOW, 0, 10, 10)
-
-#создаем surface шара и surface квадратикa
->>>>>>> af27e7236f334673144ec2561e156167f7d47a47
 ball1 = make_transp(pygame.Surface((70, 70)))
 circle(ball1, BLUE, (35, 35), 35)
 
@@ -194,11 +164,7 @@ while not finished:
         elif event.type == pygame.MOUSEBUTTONDOWN:
             for objects in all_objects:
                 for obj in objects:
-<<<<<<< HEAD
                     click_object(event, obj)
-=======
-                    click_object(event,obj)
->>>>>>> af27e7236f334673144ec2561e156167f7d47a47
 
     for objects in all_objects:
         for obj in objects:

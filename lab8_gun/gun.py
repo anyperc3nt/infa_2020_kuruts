@@ -157,13 +157,16 @@ class Gun:
 
 
 class Target:
-    def __init__(self, live=1):
+    def __init__(self, type=1):
         """ Инициализация новой цели. """
         self.x = rnd(600, 780)
         self.y = rnd(300, 550)
-        self.r = rnd(2, 50)
-        self.color = RED
-        self.live = live
+        self.r = rnd(15, 50)
+        self.vx=rnd(-7, 7)
+        self.vy=rnd(-7, 7)
+        self.color = GAME_COLORS[rnd(0,5)]
+        self.live=type
+        self.type=type
 
     def hit(self, point=1):
         """Попадание шарика в цель."""
@@ -172,19 +175,37 @@ class Target:
         points += point
 
     def draw(self):
-        pygame.draw.circle(
-            screen,
-            self.color,
-            (self.x, self.y),
-            self.r
-        )
-        pygame.draw.circle(
-            screen,
-            BLACK,
-            (self.x, self.y),
-            self.r,
-            width=1
-        )
+        if(self.type==1):
+            pygame.draw.circle(
+                screen,
+                self.color,
+                (self.x, self.y),
+                self.r
+            )
+            pygame.draw.circle(
+                screen,
+                BLACK,
+                (self.x, self.y),
+                self.r,
+                width=1
+            )
+        elif self.type == 2:
+            pygame.draw.rect(
+                screen,
+                self.color,
+                (self.x-self.r, self.y-self.r, self.r*2,self.r*2)
+            )
+            pygame.draw.rect(
+                screen,
+                BLACK,
+                (self.x-self.r, self.y-self.r, self.r*2,self.r*2),
+                width=1
+            )
+
+    def move(self):
+        """перемещает себя значение скорости"""
+        self.x += self.vx
+        self.y += self.vy
 
 
 def drawscore():
@@ -196,38 +217,64 @@ def drawscore():
     screen.blit(text1, (10, 10))
 
 
+def showtext():
+    f1 = pygame.font.Font(None, 36)
+    tbl = 'вы уничтожили цель за '
+    tbl += str(bulletshow)
+    tbl += ' выстрелов'
+    text1 = f1.render(tbl, True, BLACK)
+    screen.blit(text1, (180, 250))
+
+
+def collision(obj):
+    """функция коллизии, получает объект и при столкновении отражает его от стен
+
+    Xbound, Ybound - границы экрана, заданы вне функции
+
+    """
+    if(obj.x + obj.r > WIDTH):
+        obj.vx *= -1
+        obj.x = WIDTH-obj.r
+    elif(obj.x - obj.r < 0):
+        obj.vx *= -1
+        obj.x = obj.r
+    elif(obj.y - obj.r < 0):
+        obj.vy *= -1
+        obj.y = obj.r
+    elif(obj.y + obj.r > HEIGHT):
+        obj.vy *= -1
+        obj.y = HEIGHT-obj.r
+
+
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 bullet = 0
+bulletshow=0
 balls = []
 points = 0
 
 clock = pygame.time.Clock()
 gun = Gun(screen)
-target = Target()
+target1 = Target(1)
+target2 = Target(2)
 finished = False
 
-
-def showtext():
-    screen.fill(WHITE)
-    f1 = pygame.font.Font(None, 36)
-    tbl = 'вы уничтожили цель за '
-    tbl += str(bullet)
-    tbl += ' выстрелов'
-    text1 = f1.render(tbl, True, BLACK)
-    screen.blit(text1, (180, 250))
-    pygame.display.update()
-    for i in range(1, 100):
-        clock.tick(FPS)
-
+do_showtext=0
+pause = False
 
 while not finished:
     screen.fill(WHITE)
     gun.draw()
-    target.draw()
+    target1.draw()
+    target2.draw()
     for b in balls:
         b.draw()
     drawscore()
+    pause=False
+    if(do_showtext > 0):
+        showtext()
+        do_showtext-=1
+        pause=True
     pygame.display.update()
 
     clock.tick(FPS)
@@ -235,21 +282,35 @@ while not finished:
         if event.type == pygame.QUIT:
             finished = True
         elif event.type == pygame.MOUSEBUTTONDOWN:
-            gun.fire2_start(event)
+            if(not pause):
+                gun.fire2_start(event)
         elif event.type == pygame.MOUSEBUTTONUP:
-            gun.fire2_end(event)
+            if(not pause):
+                gun.fire2_end(event)
         elif event.type == pygame.MOUSEMOTION:
             gun.targetting(event)
 
     for b in balls:
         b.move()
-        if b.hittest(target):
-            target.hit()
-            if(target.live == 0):
-                target = Target()
+        if b.hittest(target1):
+            target1.hit()
+            if(target1.live == 0):
+                target1 = Target(1)
+                bulletshow=bullet
                 bullet = 0
                 balls = []
-                showtext()
+                do_showtext=100
+        if b.hittest(target2):
+            target2.hit()
+            if(target2.live == 0):
+                target2 = Target(2)
+                bulletshow=bullet
+                bullet = 0
+                balls = []
+                do_showtext=100
     gun.power_up()
-
+    target1.move()
+    target2.move()
+    collision(target1)
+    collision(target2)
 pygame.quit()
