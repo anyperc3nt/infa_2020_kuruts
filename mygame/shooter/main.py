@@ -10,30 +10,29 @@ import graphics
 import settings
 import textures
 
-pygame.init()
 
-FPS = settings.FPS
-Xscreensize=settings.Xscreensize
-Yscreensize=settings.Yscreensize
-screen = pygame.display.set_mode((Xscreensize, Yscreensize))
-
-layer_0 = textures.make_transp(pygame.Surface((settings.Xscreensize, settings.Yscreensize)))
-
-def conv_to_screen(x,y,alpha):
-    xnew=(x-model.player.x)*math.sin(alpha)-(y-model.player.y)*math.cos(alpha)
-    ynew=(x-model.player.x)*math.cos(alpha)+(y-model.player.y)*math.sin(alpha)
+def conv_to_screen(x,y,rot):
+    xnew=(x-model.player.x)*math.sin(rot)-(y-model.player.y)*math.cos(rot)
+    ynew=(x-model.player.x)*math.cos(rot)+(y-model.player.y)*math.sin(rot)
 
     xscreen=xnew*(Xscreensize/model.Xbound)
     yscreen=ynew*(Yscreensize/model.Ybound)
 
     return xscreen, yscreen
 
-#########################код контроллера
-pygame.display.update()
+#########################код 
+
+FPS = settings.FPS
+Xscreensize=settings.Xscreensize
+Yscreensize=settings.Yscreensize
+
+pygame.init()
+graphics.init()
+model.init()
+
 clock = pygame.time.Clock()
 finished = False
 
-model.init()
 
 while not finished:
     clock.tick(FPS)
@@ -43,16 +42,18 @@ while not finished:
         elif event.type == pygame.MOUSEBUTTONDOWN:
             pass
         elif event.type == pygame.MOUSEBUTTONUP:
-            model.keyuphandler(event.key)
-        elif event.type == pygame.KEYDOWN:
-            model.keydownhandler(event.key)
-        elif event.type == pygame.KEYUP:
             pass
+        elif event.type == pygame.KEYDOWN:
+            model.keyhandler(event.key,1)
+        elif event.type == pygame.KEYUP:
+            model.keyhandler(event.key,0)
         elif event.type == pygame.MOUSEMOTION:
             pass       
     
     model.tick()
-    pygame.display.update()
-    #screen.fill(backg)
+
+    graphics.draw(model.player.name,model.player.x,model.player.y)
+
+    graphics.update()
 
 pygame.quit()

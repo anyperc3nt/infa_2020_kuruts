@@ -23,5 +23,8 @@ def make_transp(scr):
     scr1.fill(TRANSPARENT)
     return scr1
 
-ball1 = make_transp(pygame.Surface((70,70)))
-circle(ball1, BLUE, (35, 35), 35)
+def init():
+    global ball1
+    ball1 = make_transp(pygame.Surface((70,70)))
+    circle(ball1, BLUE, (35, 35), 35)
+
