@@ -25,6 +25,6 @@ def make_transp(scr):
 
 def init():
     global ball1
-    ball1 = make_transp(pygame.Surface((70,70)))
-    circle(ball1, BLUE, (35, 35), 35)
+    ball1 = make_transp(pygame.Surface((200,200)))
+    circle(ball1, BLUE, (100, 100), 100)
 

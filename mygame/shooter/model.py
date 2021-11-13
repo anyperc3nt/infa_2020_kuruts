@@ -8,7 +8,7 @@ from random import randint
 
 from settings import *
 
-dt=100
+dt=1
 
 class myplayer(object):
     """класс объекта, который имеет свой surface для отрисовки и может передвигаться по экране
@@ -26,14 +26,58 @@ class myplayer(object):
         self.y = 0
         self.vx = 0
         self.vy = 0
-        self.r = 10
+        self.ax = 0 
+        self.ay = 0
+        self.r = 100
+        self.atime=0
+    
+    def collide(self, objects={}):
+        if (abs(self.x)+self.r)>Xmodelsize/2:
+            self.x=(Xmodelsize/2-self.r)*np.sign(self.x)
+            self.vx*=-1
+        if (abs(self.y)+self.r)>Ymodelsize/2:
+            self.y=(Ymodelsize/2-self.r)*np.sign(self.y)
+            self.vy*=-1
+        
+        for object in objects:
+            if object.name == "block":
+                pass
 
+    def frictoin(self):
+        "вязкое трение"
+        self.vx-=k0*self.vx
+        self.vy-=k0*self.vy
+    
     def move(self):
-        """перемещает себя значение скорости"""
-        self.x += self.vx
-        self.y += self.vy
-        """self.x += int(self.vx*dt/100)
-        self.y += int(self.vy*dt/100)"""
+        """ускоряется и перемещает себя значение скорости"""
+        if(self.atime>0):
+            self.vx+=playervelmax/atime*self.ax
+            self.atime-=1
+        if abs(self.vx)>playervelmax:
+            self.vx=np.sign(self.vx)*playervelmax
+
+        if(self.atime>0):
+            self.vy+=playervelmax/atime*self.ay
+            self.atime-=1
+        if abs(self.vy)>playervelmax:
+            self.vy=np.sign(self.vy)*playervelmax
+
+        if(self.atime==0):
+            self.ax=0
+            self.ay=0
+
+        self.x += int(self.vx)
+        self.y += int(self.vy)
+
+
+class block(object):
+    "класс препятствия. вообще не факт, что я буду добавлять в игру препятствия, потому что это сложно"
+    def __init__(self):
+        """конструктор"""
+        self.name="block"
+        self.x = 0
+        self.y = 0
+        self.r = 10
 
 def init():
     global player
@@ -41,17 +85,27 @@ def init():
 
 def tick():
     player.move()
+    player.collide()
+    player.frictoin()
 
-def keyhandler(key,down):
+def keyhandler(key,isdown):
     "down принимает значения true и false"
     if key == 97:
-        player.vx-=10*(-1+down*2)
+        player.ax=-1
+        player.atime=atime
+        player.vy*=0.4
     if key == 100:
-        player.vx+=10*(-1+down*2)
+        player.ax=1
+        player.atime=atime
+        player.vy*=0.4
     if key == 119:
-        player.vy-=10*(-1+down*2)
+        player.ay=-1
+        player.atime=atime
+        player.vx*=0.4
     if key == 115:
-        player.vy+=10*(-1+down*2)
+        player.ay=1
+        player.atime=atime
+        player.vx*=0.4
 
 
 def handler():

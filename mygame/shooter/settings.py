@@ -5,10 +5,11 @@ Xscreensize=800
 Yscreensize=800
 
 #model settings
-Xmodelsize=1000
-Ymodelsize=1000
-playeracceleration=15
-playervelmax=15
+Xmodelsize=2000
+Ymodelsize=2000
+atime=15 # время разгона в кадрах
+playervelmax=100
+k0=0.03 #коэффициент вязкого трения
 
 #graphics settings
 motionblurforce=100 #от 0 до 255

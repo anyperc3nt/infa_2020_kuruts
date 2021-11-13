@@ -7,25 +7,28 @@ from random import randint
 
 import model
 import graphics
-import settings
-import textures
+from settings import *
 
+scale=Xscreensize/Xmodelsize
 
-def conv_to_screen(x,y,rot):
-    xnew=(x-model.player.x)*math.sin(rot)-(y-model.player.y)*math.cos(rot)
+def conv_to_screen(x,y,rot=0):
+
+    """xnew=(x-model.player.x)*math.sin(rot)-(y-model.player.y)*math.cos(rot)
     ynew=(x-model.player.x)*math.cos(rot)+(y-model.player.y)*math.sin(rot)
 
     xscreen=xnew*(Xscreensize/model.Xbound)
     yscreen=ynew*(Yscreensize/model.Ybound)
+"""
 
-    return xscreen, yscreen
+    x+=Xmodelsize/2
+    xscreen = x*scale
+
+    y+=Ymodelsize/2
+    yscreen = y*scale
+
+    return int(xscreen), int(yscreen)
 
 #########################код 
-#амогус
-a=1
-FPS = settings.FPS
-Xscreensize=settings.Xscreensize
-Yscreensize=settings.Yscreensize
 
 pygame.init()
 graphics.init()
@@ -33,7 +36,6 @@ model.init()
 
 clock = pygame.time.Clock()
 finished = False
-
 
 while not finished:
     clock.tick(FPS)
@@ -47,13 +49,14 @@ while not finished:
         elif event.type == pygame.KEYDOWN:
             model.keyhandler(event.key,1)
         elif event.type == pygame.KEYUP:
-            model.keyhandler(event.key,0)
+            #model.keyhandler(event.key,0)
+            pass
         elif event.type == pygame.MOUSEMOTION:
             pass       
     
     model.tick()
-
-    graphics.draw(model.player.name,model.player.x,model.player.y)
+    x1,y1=conv_to_screen(model.player.x,model.player.y)
+    graphics.draw("player",scale, x1,y1)
 
     graphics.update()
 

@@ -17,10 +17,13 @@ def init():
     pygame.display.update()
     textures.init()
 
-def draw(name,x,y,rot=0):
+def draw(name,scale,x,y,rot=0):
     """функция отрисовки объекта на экран"""
     if name == "player":
-        pygame.Surface.blit(screen,pygame.transform.rotate(textures.ball1, rot),(x,y))
+        
+        tex=pygame.transform.rotate(textures.ball1, rot)
+        tex=pygame.transform.smoothscale(tex, (int(pygame.Surface.get_width(tex)*scale),int(pygame.Surface.get_height(tex)*scale)))
+        pygame.Surface.blit(screen,tex,(x-int(pygame.Surface.get_width(tex)/2),y-int(pygame.Surface.get_height(tex)/2)))
 
 def update():
     pygame.display.update()
