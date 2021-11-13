@@ -120,7 +120,7 @@ def collision(obj):
         obj.y = Ybound-obj.r
 
 
-pygame.init()
+
 screen = pygame.display.set_mode((Xbound, Ybound))
 
 # создаем таблицу учета очков
@@ -152,6 +152,7 @@ all_objects = [
               randint(1, 5), randint(1, 5), 50, 2) for i in range(1, 15)]
 ]
 
+pygame.init()
 pygame.display.update()
 clock = pygame.time.Clock()
 finished = False
