@@ -6,7 +6,9 @@ from pygame.constants import WINDOWHITTEST
 from pygame.draw import *
 
 TRANSPARENT = (0,0,0,0)
-BACKG = (50, 50, 70)
+
+BACKG = (0, 0, 0)
+#BACKG = (50, 50, 70)
 
 WHITE = (255,255,255)
 RED = (255, 0, 0)
@@ -25,6 +27,6 @@ def make_transp(scr):
 
 def init():
     global ball1
-    ball1 = make_transp(pygame.Surface((200,200)))
-    circle(ball1, BLUE, (100, 100), 100)
+    ball1 = make_transp(pygame.Surface((80,80)))
+    circle(ball1, BLUE, (40, 40), 40)
 

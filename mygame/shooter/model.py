@@ -28,17 +28,19 @@ class myplayer(object):
         self.vy = 0
         self.ax = 0 
         self.ay = 0
-        self.r = 100
+        self.r = 40
         self.atime=0
     
     def collide(self, objects={}):
         if (abs(self.x)+self.r)>Xmodelsize/2:
             self.x=(Xmodelsize/2-self.r)*np.sign(self.x)
-            self.vx*=-1
+            self.vx*=-0.8
+            self.vy*=0.8
         if (abs(self.y)+self.r)>Ymodelsize/2:
             self.y=(Ymodelsize/2-self.r)*np.sign(self.y)
-            self.vy*=-1
-        
+            self.vy*=-0.8
+            self.vx*=0.8
+
         for object in objects:
             if object.name == "block":
                 pass
@@ -53,12 +55,12 @@ class myplayer(object):
         if(self.atime>0):
             self.vx+=playervelmax/atime*self.ax
             self.atime-=1
+            self.vy+=playervelmax/atime*self.ay
+            self.atime-=1
+
         if abs(self.vx)>playervelmax:
             self.vx=np.sign(self.vx)*playervelmax
 
-        if(self.atime>0):
-            self.vy+=playervelmax/atime*self.ay
-            self.atime-=1
         if abs(self.vy)>playervelmax:
             self.vy=np.sign(self.vy)*playervelmax
 
@@ -92,21 +94,32 @@ def keyhandler(key,isdown):
     "down принимает значения true и false"
     if key == 97:
         player.ax=-1
+        player.ay=(-1)*player.vy/playervelmax
+        #player.ay=0
+        #player.vy*=0.4
         player.atime=atime
-        player.vy*=0.4
+
     if key == 100:
         player.ax=1
+        player.ay=(-1)*player.vy/playervelmax
+        #player.ay=0
+        #player.vy*=0.4
         player.atime=atime
-        player.vy*=0.4
+        
+
     if key == 119:
         player.ay=-1
+        player.ax=(-1)*player.vx/playervelmax
+        #player.ax=0
+        #player.vx*=0.4
         player.atime=atime
-        player.vx*=0.4
+
     if key == 115:
         player.ay=1
+        player.ax=(-1)*player.vx/playervelmax
+        #player.ax=0
+        #player.vx*=0.4
         player.atime=atime
-        player.vx*=0.4
-
 
 def handler():
     pass
