@@ -21,7 +21,8 @@ def conv_to_screen(x,y,rot):
     return xscreen, yscreen
 
 #########################код 
-
+#амогус
+a=1
 FPS = settings.FPS
 Xscreensize=settings.Xscreensize
 Yscreensize=settings.Yscreensize
