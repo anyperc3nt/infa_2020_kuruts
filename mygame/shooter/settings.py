@@ -27,7 +27,7 @@ pow=0.7
 enemyvmax=13
 
 #graphics settings
-motionblur_force=225 #от 0 до 255
+motionblur_force=190 #от 0 до 255
 motionblur_brightness=190 #от 0 до 255
 motionblur_blurforce=10 #красивые результаты от 7 до 17 примерно
 
